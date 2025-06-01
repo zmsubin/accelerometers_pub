@@ -1,5 +1,8 @@
 # accelerometers
 Functions for processing output from Sensor Logger and making power spectrum charts.
+The goal of this project is to measure acceleration and vibration (i.e., higher frequency acceleration)
+on various transportation modes to understand and document motion sickness triggers.
+
 See app info at https://www.tszheichoi.com/sensorlogger.
 And https://github.com/tszheichoi/awesome-sensor-logger/.
 
