@@ -62,3 +62,26 @@ def ps(data, smooth_window=10):
     # Calc sum and drop x,y,z
     df[POWER_LABEL] = df.sum(axis=1)
     return df[[POWER_LABEL]]
+
+
+def interp_combine(ps_col, freq=np.logspace(-1, 1.5, 500)):
+    # Interpolate and combine onto a common axis
+    # ps collection has keys with labels concatenated by category and "--" with individual trip
+    # Organize with column multi-index and return.
+    
+    combined = pd.DataFrame(index=freq)
+    for title in ps_col.keys():
+        ps = ps_col[title].copy()
+        combined[title] = np.interp(x=combined.index, xp=ps.index, fp=ps[POWER_LABEL])
+        
+    combined.columns.set_names('Trip', inplace=True)
+    combined.index.set_names('Freq', inplace=True)
+    combined = pd.DataFrame(combined.stack()).rename({0: 'Power'}, axis=1)
+    combined = combined.reset_index()
+    
+    combined['Category'] = combined['Trip'].map(lambda x: str.split(x, '--')[0])
+    combined['SubTrip'] = combined['Trip'].map(lambda x: str.split(x, '--')[1])
+    
+    combined = combined.pivot(index='Freq', columns=['Category', 'SubTrip'], values='Power')
+    
+    return combined
