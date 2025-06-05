@@ -12,14 +12,20 @@ COORDS = ['x', 'y', 'z']
 TIME = 'seconds_elapsed'
 FREQ_LABEL = 'Frequency'
 POWER_LABEL = 'Smoothed Power'
+DELIMITTER = '--'
 
 
 # Clean file
-def clean_file(filepath):
+def clean_file(filepath, clip=10):
     # filepath is a pathlib path
+    # clip is the number of s to clip at the beginning and end, e.g. to cut motion of manipulating phone and putting into pocket, or getting off train.
     # Returns dataframe with x, y, z, g-force
     # Index is sec since start
     data = pd.read_csv(filepath)
+    tmin = data[TIME].min()
+    tmax = data[TIME].max()
+    data = data[data[TIME] >= tmin + clip]
+    data = data[data[TIME] <= tmax - clip]
     data = data.set_index(TIME)[COORDS]
     data['g-force'] = np.sqrt(data.apply(lambda x: x**2).sum(axis=1)) / GRAV
     return data
@@ -66,7 +72,7 @@ def ps(data, smooth_window=10):
 
 def interp_combine(ps_col, freq=np.logspace(-1, 1.5, 500)):
     # Interpolate and combine onto a common axis
-    # ps collection has keys with labels concatenated by category and "--" with individual trip
+    # ps collection has keys with labels concatenated by category and DELIMITTER with individual trip
     # Organize with column multi-index and return.
     
     combined = pd.DataFrame(index=freq)
@@ -79,8 +85,8 @@ def interp_combine(ps_col, freq=np.logspace(-1, 1.5, 500)):
     combined = pd.DataFrame(combined.stack()).rename({0: 'Power'}, axis=1)
     combined = combined.reset_index()
     
-    combined['Category'] = combined['Trip'].map(lambda x: str.split(x, '--')[0])
-    combined['SubTrip'] = combined['Trip'].map(lambda x: str.split(x, '--')[1])
+    combined['Category'] = combined['Trip'].map(lambda x: str.split(x, DELIMITTER)[0])
+    combined['SubTrip'] = combined['Trip'].map(lambda x: str.split(x, DELIMITTER)[1])
     
     combined = combined.pivot(index='Freq', columns=['Category', 'SubTrip'], values='Power')
     

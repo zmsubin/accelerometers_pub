@@ -2,7 +2,7 @@
 for zip in */*.zip
 do
   dirname=`echo $zip | sed 's/\.zip$//'`
-  if mkdir -p "$dirname"
+  if mkdir "$dirname" #-p "$dirname"
   then
     if cd "$dirname"
     then
