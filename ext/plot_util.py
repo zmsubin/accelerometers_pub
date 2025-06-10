@@ -9,7 +9,7 @@ import re
 
 def generic_plot(data, kind='bar', unstacked=False, color=None, title='', ylabel='', xlabel='',
                  fontsize=12, filename=None, output_directory='', fmt='png', rot=0, ylim=None, style=None, legend=True,
-                 long_labels=False, linestyle=None, colormap=None, xlim=None):
+                 long_labels=False, linestyle=None, colormap=None, xlim=None, logx=False, logy=False):
         
     
     if (kind == 'bar' or kind == 'area' or kind == 'barh') and unstacked == False:
@@ -38,6 +38,14 @@ def generic_plot(data, kind='bar', unstacked=False, color=None, title='', ylabel
         # xtick_labels = ax.get_xticklabels()
         xtick_labels = [re.sub(' ', '\n', str(x)) for x in data.index]
         ax.set_xticklabels(xtick_labels, fontsize=fontsize - 2)
+
+    if logx:
+        ticks = ax.get_xticks()
+        ax.set_xticklabels(['$10^{' + str(x) + '}$' for x in ticks])
+
+    if logy:
+        ticks = ax.get_yticks()
+        ax.set_yticklabels(['$10^{' + str(x) + '}$' for x in ticks])
 
     if legend:
         handles, labels = ax.get_legend_handles_labels()

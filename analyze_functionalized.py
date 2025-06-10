@@ -90,8 +90,8 @@ agg_stats_df.to_csv(outputdir / 'Aggregate Stats by Trip.csv')
 # Equivalent to geometric rather than arithmetic mean
 # Smooth after averaging
 combined_bycat_log = accelerometers.smooth(combined.map(np.log10).groupby('Category', axis=1).mean(), smooth_when_plot)
-plot_util.generic_plot(combined_bycat_log.rename(np.log10, axis=0), kind='line', xlabel='log10(Hz)', ylabel='log10(W/kg/Hz)',
-                       output_directory=outputdir, title='Average Power Spectra by Mode')
+plot_util.generic_plot(combined_bycat_log.rename(np.log10, axis=0), kind='line', xlabel='Hz', ylabel='W/kg/Hz',
+                       output_directory=outputdir, title='Average Power Spectra by Mode', logx=True, logy=True)
 
 grouped_stats = agg_stats_df.T.groupby(level=0).mean()
 grouped_stats.to_csv(outputdir / 'Grouped Aggregated Stats by Trip.csv')
