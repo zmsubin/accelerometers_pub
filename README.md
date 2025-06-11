@@ -7,8 +7,7 @@ See app info at https://www.tszheichoi.com/sensorlogger.
 And https://github.com/tszheichoi/awesome-sensor-logger/.
 
 Workflow: Save trips with "Accelerometer" toggled as the included sensor. (You'll need to enable location tracking in the background for the app
-on iOS, and it's useful to save location too for trip naming and reconstruction if needed.) Save the files in subfolders with the mode or other category desired. Move output zips to ignored input directory; run unzip.sh, adjusting paths if needed; use analyze_functionalized to make plots for
-one trip (file) at a time and print stats.
+on iOS, and it's useful to save location too for trip naming and reconstruction if needed.) Save the files in subfolders with the mode or other category desired. Move output zips to ignored input directory; run unzip.sh, adjusting paths if needed; use analyze_functionalized as a script make plots for new files and print stats and summary plot. explore_analyzed allows for custom plots in a notebook.
 
 IF YOU ARE CHECKING IN CODE and using notebooks make sure to restart kernel and clear outputs, or otherwise mask your location, to avoid checking in personal
 location info. The code is written to not reference any filenames or trip titles directly as variable names or literal strings.
@@ -32,8 +31,11 @@ Testing
 ## accelerometers.py
 Module for cleaning and calculating Power Spectrum
 
-## analyze_functionalized.ipynb
-Driver notebook
+## analyze_functionalized.py
+Driver script
+
+## explore_analyzed.ipynb
+Additional user-customized plots
 
 ## unzip.sh
 Adapted a bash script from Stack Overflow -- use at your own risk.
