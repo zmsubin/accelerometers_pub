@@ -5,6 +5,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import re
+import warnings
+
+
+TICKWARN = "set_ticklabels"
 
 
 def generic_plot(data, kind='bar', unstacked=False, color=None, title='', ylabel='', xlabel='',
@@ -40,10 +44,12 @@ def generic_plot(data, kind='bar', unstacked=False, color=None, title='', ylabel
         ax.set_xticklabels(xtick_labels, fontsize=fontsize - 2)
 
     if logx:
+        warnings.filterwarnings("ignore", message=TICKWARN)
         ticks = ax.get_xticks()
         ax.set_xticklabels(['$10^{' + str(x) + '}$' for x in ticks])
 
     if logy:
+        warnings.filterwarnings("ignore", message=TICKWARN)
         ticks = ax.get_yticks()
         ax.set_yticklabels(['$10^{' + str(x) + '}$' for x in ticks])
 
