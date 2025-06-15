@@ -101,3 +101,33 @@ print('Standard Errors')
 z_grouped_stats = (agg_stats_df.T.groupby(level=0).std() / agg_stats_df.T.groupby(level=0).mean()).map(lambda x: np.round(x, 2))
 z_grouped_stats.to_csv(outputdir / 'Z for Grouped Agg Stats by Trip.csv')
 print(z_grouped_stats)
+
+# Summary chart using frequency ranges
+pow_seg = accelerometers.pow_range(combined_bycat_log)
+plot_util.generic_plot(pow_seg.map(np.log10).T, kind='bar', ylabel='W/kg', unstacked=True, title='Power by Freq. Range & Mode',
+                       output_directory=outputdir, logy=True, fontsize=9)
+
+# Summarize by mode type
+# Currently used types of modes
+mode_types = list(set([accelerometers.mode_map(mode) for mode in combined_bycat_log.columns]))
+
+for t in mode_types:
+    modes = accelerometers.mode_match(combined_bycat_log.columns, t)
+
+    # Separate chart for each type of mode
+    plot_util.generic_plot(combined_bycat_log[modes].rename(np.log10, axis=0), kind='line',
+                           xlabel='Hz', ylabel='W/kg/Hz', output_directory=outputdir,
+                           title='Average Power Spectra for ' + t + ' Travel Modes', logx=True, logy=True)
+
+    plot_util.generic_plot(pow_seg[modes].T, kind='bar', ylabel='W/kg', title='Power by Freq. Range for ' + t + ' Modes',
+                           output_directory=outputdir)
+
+# Average over mode type
+combined_bymode_type = combined_bycat_log.rename(accelerometers.mode_map, axis=1).groupby('Category', axis=1).mean()
+plot_util.generic_plot(combined_bymode_type.rename(np.log10, axis=0), kind='line', xlabel='Hz', ylabel='W/kg/Hz',
+                       output_directory=outputdir, title='Average Power Spectra by Mode Type',
+                       logx=True, logy=True)
+
+print('% of Power')
+print(pow_seg / pow_seg.sum())
+pow_seg.to_csv(outputdir / 'Power by Freq. Range.csv')

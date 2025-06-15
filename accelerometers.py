@@ -3,7 +3,6 @@
 
 import pandas as pd
 import numpy as np
-import pathlib
 
 
 # Constants and file column conventions for Accelerometer.csv
@@ -13,6 +12,8 @@ TIME = 'seconds_elapsed'
 FREQ_LABEL = 'Frequency'
 POWER_LABEL = 'Smoothed Power'
 DELIMITTER = '--'
+MODE_KEY_PATH = 'ModeKey.csv'
+MODE_TYPE = 'Mode Type'
 
 
 # Clean file
@@ -70,7 +71,7 @@ def ps(data, smooth_window=10):
     return df[[POWER_LABEL]]
 
 
-def interp_combine(ps_col, freq=np.logspace(-1, 1.5, 500)):
+def interp_combine(ps_col, freq=np.logspace(-1, 1.5, 1000)):
     # Interpolate and combine onto a common axis
     # ps collection has keys with labels concatenated by category and DELIMITTER with individual trip
     # Organize with column multi-index and return.
@@ -91,3 +92,50 @@ def interp_combine(ps_col, freq=np.logspace(-1, 1.5, 500)):
     combined = combined.pivot(index='Freq', columns=['Category', 'SubTrip'], values='Power')
     
     return combined
+
+
+def mode_map(key):
+    # Dictionary of modes read in from file
+    df = pd.read_csv(MODE_KEY_PATH, header=0, index_col=0)
+    try:
+        return df.loc[key][MODE_TYPE]
+    except KeyError:
+        return key
+
+
+def mode_match(keys, val):
+    # Return list of keys that match val using mode_map
+    # keys is iterable
+    subset = []
+    for key in keys:
+        if mode_map(key) == val:
+            subset.append(key)
+    return subset
+
+
+def pow_range(df, bounds=[10**(-0.5), 10**(0.75)], unlogged=False,
+              range_names=['Bulk Acceleration', 'Oscillation', 'Vibration']):
+    # Integrated power over a frequency range
+    # df is an already logged (by default) power spectrum
+    # bounds must have length 1 less than range_names
+    
+    if len(bounds) != len(range_names) - 1:
+        raise ValueError
+
+    if unlogged:
+        df = df.map(np.log10)
+    
+    pow_seg = pd.DataFrame(index=np.arange(len(bounds)+1), columns=df.columns)
+    for i in pow_seg.index:
+        if i == 0:
+            islice = df.index <= bounds[i]
+        elif i < len(bounds):
+            islice = (df.index > bounds[i-1]) & (df.index <= bounds[i])
+        else:
+            islice = df.index > bounds[i-1]
+        segment = df.loc[islice]
+        for col in pow_seg.columns:
+            pow_seg.loc[i, col] = np.trapezoid(10**segment[col], x=segment.index)
+
+    pow_seg = pow_seg.rename({i: range_names[i] for i in range(len(range_names))})
+    return pow_seg

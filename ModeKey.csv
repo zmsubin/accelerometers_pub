@@ -1,0 +1,12 @@
+Mode,Mode Type
+BART,Motorized
+BensCar,Motorized
+Biking,Active
+Biking stabilized,Active
+Controls,Controls
+Muni Bus,Motorized
+Muni Train,Motorized
+Walking,Active
+Walking stabilized,Active
+Weights,Active
+Biking BayWheels,Active
