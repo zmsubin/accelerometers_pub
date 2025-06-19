@@ -86,6 +86,10 @@ print(agg_stats_df.T)
 
 agg_stats_df.to_csv(outputdir / 'Aggregate Stats by Trip.csv')
 
+# Print number of trips by category
+print('Number of Trips')
+print(combined.groupby('Category', axis=1).count().T[combined.index[0]])
+
 # Take the log before the average to avoid domination of occasional noise
 # Equivalent to geometric rather than arithmetic mean
 # Smooth after averaging
