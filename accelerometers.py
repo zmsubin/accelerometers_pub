@@ -17,7 +17,7 @@ MODE_TYPE = 'Mode Type'
 
 
 # Clean file
-def clean_file(filepath, clip=10):
+def clean_file(filepath, clip=20):
     # filepath is a pathlib path
     # clip is the number of s to clip at the beginning and end, e.g. to cut motion of manipulating phone and putting into pocket, or getting off train.
     # Returns dataframe with x, y, z, g-force
