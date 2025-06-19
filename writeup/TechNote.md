@@ -1,9 +1,9 @@
-# Technical Note: Analysis of Acceleration during Trips and Activities
+# Technical Note: Analysis of acceleration during trips and activities
 
 This code analzyes output from the [Sensor Logger app](https://www.tszheichoi.com/sensorlogger) 
 "Accelerometer" sensor for many recordings at once. This sensor reports calibrated linear acceleration after subtracting the gravity vector (so it is zero when stationary on the earth's surface).
 
-Each recording should represent a single trip or activity, at least ~5 minutes in duration, organized by travel mode or activity category. The phone should be kept in pocket or a constant bodily position as much as possible for the duration of the trip. Because power spectra and vector-norm acceleration are reported, the results should be insensitive to the phone orientation except for very rapid rotation. (The total power spectrum is a linear combination of spatial-component power spectra.) The analysis reports individual and averaged trip acceleration and power spectra, to compare characteristic movement for modes.
+Each recording should represent a single trip or activity, at least ~5 minutes in duration, organized by travel mode or activity category. The phone should be kept in pocket or a constant bodily position as much as possible for the duration of the trip. The analysis reports individual and averaged trip acceleration and power spectra, to compare characteristic movement for modes. (Because power spectra and vector-norm acceleration are reported, the results should be insensitive to the phone orientation except for very rapid rotation. The total power spectrum is a linear combination of spatial-component power spectra.)
 
 ## Normalized acceleration ([g-force](https://en.wikipedia.org/wiki/G-force))
 
@@ -20,20 +20,20 @@ where $\vec{a}$ [m s $^{-2}$] is the vector linear acceleration  (over each spat
 The [power spectrum](https://en.wikipedia.org/wiki/Spectral_density) $S_\tau(f)$ [W kg $^{-1}$ s] at frequency $f$ for trip $\tau$ is:
 
 ```math
-S_\tau(f) = \Delta t^2 \left(|\hat{a}_x|^2 + |\hat{a}_y|^2 + |\hat{a}_z|^2\right) _\tau
+S_\tau(f) = \Delta t^2 \left(|\hat{a}_x(f)|^2 + |\hat{a}_y(f)|^2 + |\hat{a}_z(f)|^2\right) _\tau
 ```
 
-where $\hat{a}_{x,y,z}$ is the Real [Discrete Fourier Transform](https://en.wikipedia.org/wiki/Discrete_Fourier_transform) of the acceleration for each spatial component and $\Delta t$ [s] is the timestep. The Real Discrete Fourier Transform is evaluated using the _numpy_ functions "rfft" and "rfftfreq."
+where $\hat{a}_{x,y,z}(f)$ is the Real [Discrete Fourier Transform](https://en.wikipedia.org/wiki/Discrete_Fourier_transform) of the acceleration for each spatial component and $\Delta t$ [s] is the timestep. The Real Discrete Fourier Transform is evaluated using the _numpy_ functions "rfft" and "rfftfreq."
 
 ## Log-mean power spectrum
 
-The log-mean (i.e., geometric mean) power spectrum $\bar{S}_m(f)$ for each mode $m$ is:
+The log-mean (i.e., geometric mean) power spectrum $\bar{S}_m(f)$ for each mode category $m$ is:
 
 ```math
 \log_{10}{\bar{S}_m(f)} = \frac{\sum_{\tau \in m}{\log_{10}S_\tau(f)}}{N_m}
 ```
 
-where $N_m$ is the number of trips $\tau$ on the mode $m$.
+where $N_m$ is the number of trips $\tau$ for the mode $m$.
 
 ## Integrated power
 
@@ -55,7 +55,7 @@ P = \int_{f_1}^{f_2}10^{\log_{10}\bar{S}_m(f)}df .
 
 Each trip is clipped at the beginning and end, by a default of 20 s. Normalized acceleration and power spectrum plots are smoothed by averaging over a default of 100 timesteps or frequency increments, respectively.
 
-To limit file size and facilitate averaging and comparison across trips, power spectra are interpolated, after smoothing, onto a common frequency range, default log-spaced from 0.1 to 32 $(10^{1.5})$ Hz with 1000 increments.
+To limit file size and facilitate averaging and comparison across trips, power spectra are interpolated, after smoothing, onto a common frequency range, default log-spaced from 0.1 to 32 $(10^{1.5})$ Hz with 1000 increments. The interpolation uses the _numpy_ "interp" function which uses piecewise linear interpolation.
 
 The log-mean averaging of power spectra suppresses noise and outlier trips; however, outlier trips may be removed manually after many trips are compared for a mode or category.
 
