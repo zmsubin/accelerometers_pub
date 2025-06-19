@@ -71,7 +71,7 @@ def ps(data, smooth_window=10):
     return df[[POWER_LABEL]]
 
 
-def interp_combine(ps_col, freq=np.logspace(-1, 1.5, 1000)):
+def interp_combine(ps_col, freq=np.logspace(-1.5, 1.5, 1000)):
     # Interpolate and combine onto a common axis
     # ps collection has keys with labels concatenated by category and DELIMITTER with individual trip
     # Organize with column multi-index and return.

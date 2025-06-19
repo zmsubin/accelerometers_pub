@@ -55,7 +55,7 @@ P = \int_{f_1}^{f_2}10^{\log_{10}\bar{S}_m(f)}df .
 
 Each trip is clipped at the beginning and end, by a default of 20 s. Normalized acceleration and power spectrum plots are smoothed by averaging over a default of 100 timesteps or frequency increments, respectively.
 
-To limit file size and facilitate averaging and comparison across trips, power spectra are interpolated, after smoothing, onto a common frequency range, default log-spaced from 0.1 to 32 $(10^{1.5})$ Hz with 1000 increments. The interpolation uses the _numpy_ "interp" function which uses piecewise linear interpolation.
+To limit file size and facilitate averaging and comparison across trips, power spectra are interpolated, after smoothing, onto a common frequency range, default log-spaced from 0.032 $(10^{-1.5})$ to 32 $(10^{1.5})$ Hz with 1000 increments. The interpolation uses the _numpy_ "interp" function which uses piecewise linear interpolation.
 
 The log-mean averaging of power spectra suppresses noise and outlier trips; however, outlier trips may be removed manually after many trips are compared for a mode or category.
 
