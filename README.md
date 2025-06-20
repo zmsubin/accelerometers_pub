@@ -36,6 +36,12 @@ Output figs will appear here.
 ## scratch
 Testing
 
+## example_outputs
+Sample figures
+
+## writeup
+Technical note
+
 ## accelerometers.py
 Module for cleaning and calculating Power Spectrum
 
