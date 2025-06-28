@@ -52,7 +52,7 @@ for file in files:
     if not pathlib.Path(outputdir / (title + '.png')).exists():
         ps_smoothed = accelerometers.smooth(ps, smooth_window=smooth_when_plot)
         plt.figure()
-        plot_util.generic_plot(np.log10(ps_smoothed[accelerometers.POWER_LABEL]), kind='line', xlabel='Hz', ylabel='W/kg/Hz', logy=True,
+        plot_util.generic_plot(np.log10(ps_smoothed[accelerometers.POWER_LABEL]), kind='line', xlabel='Hz', ylabel='g$^2$/Hz', logy=True,
                                title=title, output_directory=outputdir)
         plt.close()
 
@@ -68,7 +68,7 @@ for file in files:
     tot_pow_collection[title] = total_pow
     g_collection[title] = df['g-force'].mean()
 
-    print('Total Power: ' + str(round(total_pow, 2)) + ' W/kg')
+    print('Total Power (variance of acceleration): ' + str(round(total_pow, 4)) + ' g^2')
     print('Mean g-force: ' + str(df['g-force'].mean().round(2)) + " g's")
 
 print(len(ps_collection))
@@ -77,10 +77,10 @@ combined = accelerometers.interp_combine(ps_collection)
 
 combined.to_csv(outputdir / 'Combined.csv')
 
-agg_stats_df = pd.DataFrame(index=['Power [W/kg]', 'g-force [-]'], columns=combined.columns)
+agg_stats_df = pd.DataFrame(index=['Power [g^2]', 'g-force [-]'], columns=combined.columns)
 idx = pd.IndexSlice
 for col in combined:
-    agg_stats_df.loc[idx['Power [W/kg]'], idx[col[0], col[1]]] = tot_pow_collection[col[0] + accelerometers.DELIMITTER + col[1]]
+    agg_stats_df.loc[idx['Power [g^2]'], idx[col[0], col[1]]] = tot_pow_collection[col[0] + accelerometers.DELIMITTER + col[1]]
     agg_stats_df.loc[idx['g-force [-]'], idx[col[0], col[1]]] = g_collection[col[0] + accelerometers.DELIMITTER + col[1]]
 print(agg_stats_df.T)
 
@@ -94,7 +94,7 @@ print(combined.groupby('Category', axis=1).count().T[combined.index[0]])
 # Equivalent to geometric rather than arithmetic mean
 # Smooth after averaging
 combined_bycat_log = accelerometers.smooth(combined.map(np.log10).groupby('Category', axis=1).mean(), smooth_when_plot)
-plot_util.generic_plot(combined_bycat_log.rename(np.log10, axis=0), kind='line', xlabel='Hz', ylabel='W/kg/Hz',
+plot_util.generic_plot(combined_bycat_log.rename(np.log10, axis=0), kind='line', xlabel='Hz', ylabel='g$^2$/Hz',
                        output_directory=outputdir, title='Average Power Spectra by Mode', logx=True, logy=True)
 
 grouped_stats = agg_stats_df.T.groupby(level=0).mean()
@@ -106,10 +106,10 @@ z_grouped_stats = (agg_stats_df.T.groupby(level=0).std() / agg_stats_df.T.groupb
 z_grouped_stats.to_csv(outputdir / 'Z for Grouped Agg Stats by Trip.csv')
 print(z_grouped_stats)
 
-# Summary chart using frequency ranges
+# Summary chart: rms acceleration
 pow_seg = accelerometers.pow_range(combined_bycat_log)
-plot_util.generic_plot(pow_seg.map(np.log10).T, kind='bar', ylabel='W/kg', unstacked=True, title='Power by Freq. Range & Mode',
-                       output_directory=outputdir, logy=True, fontsize=9)
+plot_util.generic_plot(pow_seg.map(np.sqrt).T, kind='bar', ylabel='g', unstacked=True, title='RMS Acceleration by Freq. Range & Mode',
+                       output_directory=outputdir, fontsize=9)
 
 # Summarize by mode type
 # Currently used types of modes
@@ -120,15 +120,15 @@ for t in mode_types:
 
     # Separate chart for each type of mode
     plot_util.generic_plot(combined_bycat_log[modes].rename(np.log10, axis=0), kind='line',
-                           xlabel='Hz', ylabel='W/kg/Hz', output_directory=outputdir,
+                           xlabel='Hz', ylabel='g$^2$/Hz', output_directory=outputdir,
                            title='Average Power Spectra for ' + t + ' Travel Modes', logx=True, logy=True)
 
-    plot_util.generic_plot(pow_seg[modes].T, kind='bar', ylabel='W/kg', title='Power by Freq. Range for ' + t + ' Modes',
+    plot_util.generic_plot(pow_seg[modes].T, kind='bar', ylabel='g$^2$', title='Power by Freq. Range for ' + t + ' Modes',
                            output_directory=outputdir)
 
 # Average over mode type
 combined_bymode_type = combined_bycat_log.rename(accelerometers.mode_map, axis=1).groupby('Category', axis=1).mean()
-plot_util.generic_plot(combined_bymode_type.rename(np.log10, axis=0), kind='line', xlabel='Hz', ylabel='W/kg/Hz',
+plot_util.generic_plot(combined_bymode_type.rename(np.log10, axis=0), kind='line', xlabel='Hz', ylabel='g$^2$/Hz',
                        output_directory=outputdir, title='Average Power Spectra by Mode Type',
                        logx=True, logy=True)
 

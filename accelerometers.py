@@ -48,8 +48,8 @@ def ps(data, smooth_window=10):
     # data is a clean dataframe output from clean_file
     # returns dataframe with smoothed power spectrum
     # Index is frequency in Hz
-    # Vals are in units of W/kg/Hz
-    df = data[COORDS].apply(lambda x: np.abs(np.fft.rfft(x))**2)
+    # Vals are in units of g^2/Hz
+    df = data[COORDS].apply(lambda x: np.abs(np.fft.rfft(x/GRAV))**2)
 
     # Determine timestep
     steps = data.index[1:] - data.index[:-1]
