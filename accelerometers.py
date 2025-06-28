@@ -54,10 +54,11 @@ def ps(data, smooth_window=10):
     # Determine timestep
     steps = data.index[1:] - data.index[:-1]
     dt = np.median(steps)
+    T = len(steps) * dt # Total T estimated allowing for cuts in recording
     
-    # Normalize for physical power spectrum units
+    # Normalize for recording length and allow physical power spectrum units
     # See https://en.wikipedia.org/wiki/Spectral_density#Units and https://en.wikipedia.org/wiki/Spectral_density#Power_spectral_density
-    df *= dt**2
+    df *= dt**2 / T
     
     # Retrieve frequency axis
     df[FREQ_LABEL] = np.fft.rfftfreq(len(data), d=dt)

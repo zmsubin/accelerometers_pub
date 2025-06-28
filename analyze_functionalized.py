@@ -52,7 +52,7 @@ for file in files:
     if not pathlib.Path(outputdir / (title + '.png')).exists():
         ps_smoothed = accelerometers.smooth(ps, smooth_window=smooth_when_plot)
         plt.figure()
-        plot_util.generic_plot(np.log10(ps_smoothed[accelerometers.POWER_LABEL]), kind='line', xlabel='Hz', ylabel='log10(W/kg/Hz)',
+        plot_util.generic_plot(np.log10(ps_smoothed[accelerometers.POWER_LABEL]), kind='line', xlabel='Hz', ylabel='W/kg/Hz', logy=True,
                                title=title, output_directory=outputdir)
         plt.close()
 
@@ -60,7 +60,7 @@ for file in files:
     if not pathlib.Path(outputdir / (title + '_logx.png')).exists():
         ps_smoothed = accelerometers.smooth(ps, smooth_window=smooth_when_plot)
         plt.figure()
-        plot_util.generic_plot(np.log10(ps_smoothed[accelerometers.POWER_LABEL]).rename(np.log10, axis=0), kind='line', xlabel='log10(Hz)', ylabel='log10(W/kg/Hz)',
+        plot_util.generic_plot(np.log10(ps_smoothed[accelerometers.POWER_LABEL]).rename(np.log10, axis=0), kind='line', xlabel='Hz', ylabel='W/kg/Hz', logy=True, logx=True,
                                title=title + '_logx', output_directory=outputdir)
         plt.close()
 
@@ -68,7 +68,7 @@ for file in files:
     tot_pow_collection[title] = total_pow
     g_collection[title] = df['g-force'].mean()
 
-    print('Total Power: ' + str(int(total_pow)) + ' W/kg')
+    print('Total Power: ' + str(round(total_pow, 2)) + ' W/kg')
     print('Mean g-force: ' + str(df['g-force'].mean().round(2)) + " g's")
 
 print(len(ps_collection))

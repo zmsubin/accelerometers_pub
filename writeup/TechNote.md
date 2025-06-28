@@ -20,10 +20,12 @@ where $\vec{a}$ [m s $^{-2}$] is the vector linear acceleration  (over each spat
 The [power spectrum](https://en.wikipedia.org/wiki/Spectral_density) $S_\tau(f)$ [W kg $^{-1}$ s] at frequency $f$ for trip $\tau$ is:
 
 ```math
-S_\tau(f) = \Delta t^2 \left(|\hat{a}_x(f)|^2 + |\hat{a}_y(f)|^2 + |\hat{a}_z(f)|^2\right) _\tau
+S_\tau(f) = \frac{\Delta t^2}{T} \left(|\hat{a}_x(f)|^2 + |\hat{a}_y(f)|^2 + |\hat{a}_z(f)|^2\right) _\tau
 ```
 
-where $\hat{a}_{x,y,z}(f)$ is the Real [Discrete Fourier Transform](https://en.wikipedia.org/wiki/Discrete_Fourier_transform) of the acceleration for each spatial component and $\Delta t$ [s] is the timestep. The Real Discrete Fourier Transform is evaluated using the _numpy_ functions "rfft" and "rfftfreq."
+where $\hat{a}_{x,y,z}(f)$ is the Real [Discrete Fourier Transform](https://en.wikipedia.org/wiki/Discrete_Fourier_transform) of the acceleration for each spatial component, $\Delta t$ [s] is the timestep, and $T$ [s] is the trip duration. The Real Discrete Fourier Transform is evaluated using the _numpy_ functions "rfft" and "rfftfreq."
+
+To convert to commonly reported units for vibration analysis, divide this result $g^2$ (about 100 in these units) to yield units of $\frac{g^2}{Hz}$.
 
 ## Log-mean power spectrum
 
@@ -49,6 +51,7 @@ where $S(f)$ is a power spectrum or mean power spectrum. The integral should be 
 P = \int_{f_1}^{f_2}10^{\log_{10}\bar{S}_m(f)}df .
 ```
 
+The root-mean-square (rms) acceleration would be proportional to $\sqrt{P}$.
 
 
 ## Cleaning, smoothing, and interpolation
