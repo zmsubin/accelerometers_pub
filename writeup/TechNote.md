@@ -25,7 +25,7 @@ S_\tau(f) = \frac{\Delta t^2}{T} \left(|\hat{a}_x(f)|^2 + |\hat{a}_y(f)|^2 + |\h
 
 where $\hat{a}_{x,y,z}(f)$ is the Real [Discrete Fourier Transform](https://en.wikipedia.org/wiki/Discrete_Fourier_transform) of the acceleration for each spatial component, $\Delta t$ [s] is the timestep, and $T$ [s] is the trip duration. The Real Discrete Fourier Transform is evaluated using the _numpy_ functions "rfft" and "rfftfreq."
 
-To convert to commonly reported units for vibration analysis, divide this result $g^2$ (about 100 in these units) to yield units of $\frac{g^2}{Hz}$.
+To convert to commonly reported units for vibration analysis, divide this result by $g^2$ (about 100 in these units) to yield units of $\frac{g^2}{Hz}$.
 
 ## Log-mean power spectrum
 
