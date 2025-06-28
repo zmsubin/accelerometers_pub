@@ -134,4 +134,4 @@ plot_util.generic_plot(combined_bymode_type.rename(np.log10, axis=0), kind='line
 
 print('% of Power')
 print(pow_seg / pow_seg.sum())
-pow_seg.to_csv(outputdir / 'Power by Freq. Range.csv')
+pow_seg.T.to_csv(outputdir / 'Power by Freq. Range.csv')
