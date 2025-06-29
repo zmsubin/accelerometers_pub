@@ -48,19 +48,11 @@ for file in files:
     # Save for later
     ps_collection[title] = ps.copy()
 
-    # Log power spectrum
-    if not pathlib.Path(outputdir / (title + '.png')).exists():
-        ps_smoothed = accelerometers.smooth(ps, smooth_window=smooth_when_plot)
-        plt.figure()
-        plot_util.generic_plot(np.log10(ps_smoothed[accelerometers.POWER_LABEL]), kind='line', xlabel='Hz', ylabel='g$^2$/Hz', logy=True,
-                               title=title, output_directory=outputdir)
-        plt.close()
-
     # Log power spectrum, logged x
     if not pathlib.Path(outputdir / (title + '_logx.png')).exists():
         ps_smoothed = accelerometers.smooth(ps, smooth_window=smooth_when_plot)
         plt.figure()
-        plot_util.generic_plot(np.log10(ps_smoothed[accelerometers.POWER_LABEL]).rename(np.log10, axis=0), kind='line', xlabel='Hz', ylabel='W/kg/Hz', logy=True, logx=True,
+        plot_util.generic_plot(np.log10(ps_smoothed[accelerometers.POWER_LABEL]).rename(np.log10, axis=0), kind='line', xlabel='Hz', ylabel='g$^2$/Hz', logy=True, logx=True,
                                title=title + '_logx', output_directory=outputdir)
         plt.close()
 
@@ -109,7 +101,7 @@ print(z_grouped_stats)
 # Summary chart: rms acceleration
 pow_seg = accelerometers.pow_range(combined_bycat_log)
 plot_util.generic_plot(pow_seg.map(np.sqrt).T, kind='bar', ylabel='g', unstacked=True, title='RMS Acceleration by Freq. Range & Mode',
-                       output_directory=outputdir, fontsize=9)
+                       output_directory=outputdir, fontsize=7)
 
 # Summarize by mode type
 # Currently used types of modes
