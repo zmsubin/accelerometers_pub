@@ -8,12 +8,13 @@ And https://github.com/tszheichoi/awesome-sensor-logger/.
 Technical note in "writeup/", viewable on the [online repo](https://github.com/zmsubin/accelerometers_pub/blob/main/writeup/TechNote.md).
 
 Workflow:
+0. Install the Sensor Logger app.
 1. Export recordings with "Accelerometer" toggled as an included sensor at 100 Hz or as high as allowed.
     * You'll need to enable location tracking in the background for the app
 on iOS, and it's useful to save location too for trip naming and reconstruction if needed. Try to keep each recording to ~>5-10 min and as much as possible limited to a single activity with a constant phone position.
 2. Save the files in subfolders with the mode or other category desired. Move output zips to ignored input directory defaulting to "inputdata/".
 3. Run unzip.sh from the inputdata directory, adjusting paths if needed.
-4. Adjust ModeKey.csv to customize the meta-categories of trip modes or activities.
+4. (Optional) Adjust ModeKey.csv to customize the meta-categories of trip modes or activities.
 5. Run analyze_functionalized as a command-line python script ("python analyze_functionalized.py") to make plots for new files and print stats and summary plot.
 6. (Optional) Make additional custom plots using explore_analyzed in a notebook.
 
