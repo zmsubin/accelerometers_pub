@@ -46,7 +46,7 @@ Technical note
 ## accelerometers.py
 Module for cleaning and calculating Power Spectrum
 
-## analyze_functionalized.py
+## analyze.py
 Driver script
 
 ## explore_analyzed.ipynb
