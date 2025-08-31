@@ -95,21 +95,21 @@ def interp_combine(ps_col, freq=np.logspace(-1.5, 1.5, 1000)):
     return combined
 
 
-def mode_map(key):
+def mode_map(key, mode_key_path):
     # Dictionary of modes read in from file
-    df = pd.read_csv(MODE_KEY_PATH, header=0, index_col=0)
+    df = pd.read_csv(mode_key_path, header=0, index_col=0)
     try:
         return df.loc[key][MODE_TYPE]
     except KeyError:
         return key
 
 
-def mode_match(keys, val):
+def mode_match(keys, val, mode_key_path):
     # Return list of keys that match val using mode_map
     # keys is iterable
     subset = []
     for key in keys:
-        if mode_map(key) == val:
+        if mode_map(key, mode_key_path) == val:
             subset.append(key)
     return subset
 
