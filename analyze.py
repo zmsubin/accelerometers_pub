@@ -11,6 +11,7 @@ sys.path.append('ext')
 import plot_util
 import accelerometers
 import optparse
+import os
 
 smooth_before_plot=100
 smooth_when_plot=1
@@ -140,5 +141,6 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
 
     print('Using modekey file: ', options.mfile)
+    os.system("cat " + options.mfile)
 
     analyze(options.mfile)
