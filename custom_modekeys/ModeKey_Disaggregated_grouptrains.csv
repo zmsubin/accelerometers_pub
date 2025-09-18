@@ -7,8 +7,8 @@ Chores,Miscellaneous Active
 Controls,Controls
 JohnsCar,Driving
 Muni Bus,Bus
-Muni Train,Other Trains
-RTD Train,Other Trains
+Muni Train,Trains
+RTD Train,Trains
 Walking,Walking
 Walking stabilized,Walking
 Walking with others,Walking
@@ -16,7 +16,8 @@ Waymo,Driving
 Weights,Miscellaneous Active
 Other transit,Bus
 Other Cars,Driving
-NJ Transit,Other Trains
-NY Metro-North,Other Trains
-NY Subway,Other Trains
-Amtrak,Other Trains
+NJ Transit,Trains
+NY Metro-North,Trains
+NY Subway,Trains
+Amtrak,Trains
+BART,Trains
