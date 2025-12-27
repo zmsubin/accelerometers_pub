@@ -106,7 +106,7 @@ def analyze(mode_key_path):
     # Summary chart: rms acceleration
     pow_seg = accelerometers.pow_range(combined_bycat_log)
     plot_util.generic_plot(pow_seg.map(np.sqrt).T, kind='bar', ylabel='g', unstacked=True, title='RMS Acceleration by Freq. Range & Mode',
-                        output_directory=outputdir, fontsize=7)
+                        output_directory=outputdir, fontsize=7, rot=90)
 
     # Summarize by mode type
     # Currently used types of modes
