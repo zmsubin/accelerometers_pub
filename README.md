@@ -15,6 +15,7 @@ on iOS, and it's useful to save location too for trip naming and reconstruction 
 2. Save the files in subfolders with the mode or other category desired. Move output zips to ignored input directory defaulting to "inputdata/".
 3. Run unzip.sh from the inputdata directory, adjusting paths if needed.
 4. (Optional) Adjust ModeKey.csv to customize the meta-categories of trip modes or activities.
+    * You can also create alternative dictionaries and load at runtime using the command-line option '-m'.
 5. Run analyze as a command-line python script ("python analyze.py") to make plots for new files and print stats and summary plot.
 6. (Optional) Make additional custom plots using explore_analyzed in a notebook.
 
