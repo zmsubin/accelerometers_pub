@@ -7,7 +7,7 @@ do
     if cd "$dirname"
     then
       echo "$dirname"
-      unzip ../../"$zip"
+      unzip ../../"$zip" Accelerometer.csv
       cd ../..
       # rm -f $zip # Uncomment to delete the original zip file
     else
