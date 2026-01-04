@@ -30,8 +30,8 @@ Three example trips showing g-force smoothed to about 1 second intervals:
 A previous Sensor Logger-based [project](https://sensorlogger.app/story/c3039eaf78?e1cn0uczx=9938be302) investigated anomalous train oscillation by examining peak g-force on a pre-determined problematic segment.  Train safety standards are set [similarly](https://kagi.com/assistant/b7c0bfa1-5efb-42a3-aee9-df1a8c6c84f4).
 This approach has several limitations:
 
-- The peak is sensitive to phone handling, which I believe corresponds to the two spiked in the BART trip (second panel) above.
-- Identifying problematic segments requires subjective decisions about where to focus. In addition, when analyzing a large number of below-ground trips for which precsie GPS-based location is unavailable, consistently isolating a route segment would be difficult.
+- The peak is sensitive to phone handling, which I believe corresponds to the two spikes in the BART trip (second panel) above.
+- Identifying problematic segments requires subjective decisions about where to focus. In addition, when analyzing a large number of below-ground trips for which precise GPS-based location is unavailable, consistently isolating a route segment would be difficult.
 - _Most importantly for my purposes_: the peak provides information only about a single instant of an entire trip.
 
 My meta-hypothesis here is that motion sickness is not a function of the peak but the average experience of the whole trip. So I chose to use a more general approach by analyzing the acceleration [power spectrum](https://en.wikipedia.org/wiki/Spectral_density#Power_spectral_density), which expresses the acceleration not over time, but by _frequency_. This is another [common approach](https://blog.endaq.com/why-the-power-spectral-density-psd-is-the-gold-standard-of-vibration-analysis) for analyzing acceleration and vibration. If your trip was a musical composition, you could think of the power spectrum as highlighting the key notes!
