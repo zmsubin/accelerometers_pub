@@ -76,7 +76,7 @@ A similar pattern appears for unstabilized vs. stabilized biking. Compared to wa
 
 ![Three lines on a plot with the sharpest peak in the middle labeled BART](Figure7.png "Train Spectra")
 
-This chart encompasses 163 BART trip segments, 69 on Muni trains, and 17 on other trains. A sharp oscillation peak occurs for BART centered at 1.79 (~$10^{0.25}$) Hz. This peak has appeared consistent since the first couple dozen segments were recorded, when I converged on my analysis method. It appears relatively modest when plotting the whole spectrum, but remember this is a logged y-axis (base 10). The BART peak clearly emerges from noise, and it suggests BART has several times more "power" (i.e., per-unit acceleration variance) than the other trains around its peak oscillation frequency.
+This chart encompasses 163 BART trip segments, 69 on Muni trains, and 17 on other trains. A sharp oscillation peak occurs for BART centered at 1.79 (~ $10^{0.25}$ ) Hz. This peak has appeared consistent since the first couple dozen segments were recorded, when I converged on my analysis method. It appears relatively modest when plotting the whole spectrum, but remember this is a logged y-axis (base 10). The BART peak clearly emerges from noise, and it suggests BART has several times more "power" (i.e., per-unit acceleration variance) than the other trains around its peak oscillation frequency.
 
 _Preliminary note: if I break out Caltrain trips from other trains, there is a modest oscillation peak in the same range. However, this is from only three trips, and seems to be dominated by a single trip. Thus, I need more samples from Caltrain to confirm any comparable behavior. Meanwhile, I feel like Caltrain is much smoother than BART._
 
