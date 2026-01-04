@@ -85,7 +85,9 @@ def analyze(mode_key_path):
 
     # Print number of trips by category
     print('Number of Trips')
-    print(combined.groupby('Category', axis=1).count().T[combined.index[0]])
+    ntrips = combined.groupby('Category', axis=1).count().T[combined.index[0]]
+    print(ntrips)
+    ntrips.to_csv(outputdir / 'nTrips.csv')
 
     # Take the log before the average to avoid domination of occasional noise
     # Equivalent to geometric rather than arithmetic mean
